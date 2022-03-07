@@ -1,0 +1,24 @@
+format_version: v1.0
+type: UniqueComponent
+attributes: {id: drv_usbfs_v1}
+children:
+- type: Symbols
+  children:
+  - type: Integer
+    attributes: {id: USB_DRIVER_RTOS_DELAY}
+    children:
+    - type: Attributes
+      children:
+      - type: Boolean
+        attributes: {id: visible}
+        children:
+        - {type: Value, value: 'false'}
+  - type: Boolean
+    attributes: {id: USB_DRIVER_RTOS_USE_DELAY}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: 'false'}
+- type: ElementPosition
+  attributes: {x: '260', y: '20', id: drv_usbfs_v1}
