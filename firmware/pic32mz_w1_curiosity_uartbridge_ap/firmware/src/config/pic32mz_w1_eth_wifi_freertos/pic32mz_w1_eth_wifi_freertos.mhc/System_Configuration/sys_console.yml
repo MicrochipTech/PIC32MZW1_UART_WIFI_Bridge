@@ -188,20 +188,5 @@ children:
             attributes: {id: enabled}
             children:
             - {type: Value, value: 'true'}
-    - type: Attachments
-      children:
-      - type: DirectDependency
-        attributes: {id: sys_console_USB_DEVICE_CDC_dependency}
-        children:
-        - type: Attributes
-          children:
-          - type: String
-            attributes: {id: targetComponentID}
-            children:
-            - {type: Value, value: usb_device_cdc_0}
-          - type: String
-            attributes: {id: targetAttachmentID}
-            children:
-            - {type: Value, value: USB Device}
 - type: ElementPosition
   attributes: {x: '193', y: '133', id: sys_console}

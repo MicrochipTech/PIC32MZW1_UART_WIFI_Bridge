@@ -155,17 +155,17 @@ static DRV_USART_CLIENT_OBJ drvUSART0ClientObjPool[DRV_USART_CLIENTS_NUMBER_IDX0
 
 
 const DRV_USART_PLIB_INTERFACE drvUsart0PlibAPI = {
-    .readCallbackRegister = (DRV_USART_PLIB_READ_CALLBACK_REG)UART2_ReadCallbackRegister,
-    .read = (DRV_USART_PLIB_READ)UART2_Read,
-    .readIsBusy = (DRV_USART_PLIB_READ_IS_BUSY)UART2_ReadIsBusy,
-    .readCountGet = (DRV_USART_PLIB_READ_COUNT_GET)UART2_ReadCountGet,
-    .readAbort = (DRV_USART_PLIB_READ_ABORT)UART2_ReadAbort,
-    .writeCallbackRegister = (DRV_USART_PLIB_WRITE_CALLBACK_REG)UART2_WriteCallbackRegister,
-    .write = (DRV_USART_PLIB_WRITE)UART2_Write,
-    .writeIsBusy = (DRV_USART_PLIB_WRITE_IS_BUSY)UART2_WriteIsBusy,
-    .writeCountGet = (DRV_USART_PLIB_WRITE_COUNT_GET)UART2_WriteCountGet,
-    .errorGet = (DRV_USART_PLIB_ERROR_GET)UART2_ErrorGet,
-    .serialSetup = (DRV_USART_PLIB_SERIAL_SETUP)UART2_SerialSetup
+    .readCallbackRegister = (DRV_USART_PLIB_READ_CALLBACK_REG)UART3_ReadCallbackRegister,
+    .read = (DRV_USART_PLIB_READ)UART3_Read,
+    .readIsBusy = (DRV_USART_PLIB_READ_IS_BUSY)UART3_ReadIsBusy,
+    .readCountGet = (DRV_USART_PLIB_READ_COUNT_GET)UART3_ReadCountGet,
+    .readAbort = (DRV_USART_PLIB_READ_ABORT)UART3_ReadAbort,
+    .writeCallbackRegister = (DRV_USART_PLIB_WRITE_CALLBACK_REG)UART3_WriteCallbackRegister,
+    .write = (DRV_USART_PLIB_WRITE)UART3_Write,
+    .writeIsBusy = (DRV_USART_PLIB_WRITE_IS_BUSY)UART3_WriteIsBusy,
+    .writeCountGet = (DRV_USART_PLIB_WRITE_COUNT_GET)UART3_WriteCountGet,
+    .errorGet = (DRV_USART_PLIB_ERROR_GET)UART3_ErrorGet,
+    .serialSetup = (DRV_USART_PLIB_SERIAL_SETUP)UART3_SerialSetup
 };
 
 const uint32_t drvUsart0remapDataWidth[] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0x0, 0x6 };
@@ -709,6 +709,26 @@ const SYS_DEBUG_INIT debugInit =
 // *****************************************************************************
 // *****************************************************************************
 
+/*******************************************************************************
+  Function:
+    void STDIO_BufferModeSet ( void )
+
+  Summary:
+    Sets the buffering mode for stdin and stdout
+
+  Remarks:
+ ********************************************************************************/
+static void STDIO_BufferModeSet(void)
+{
+
+    /* Make stdin unbuffered */
+    setbuf(stdin, NULL);
+
+    /* Make stdout unbuffered */
+    setbuf(stdout, NULL);
+}
+
+
 
 
 /*******************************************************************************
@@ -727,6 +747,9 @@ void SYS_Initialize ( void* data )
     /* Start out with interrupts disabled before configuring any modules */
     __builtin_disable_interrupts();
 
+    STDIO_BufferModeSet();
+  
+
   
     PMU_Initialize();
 	CLK_Initialize();
@@ -741,6 +764,8 @@ void SYS_Initialize ( void* data )
     NVM_Initialize();
 
     CORETIMER_Initialize();
+	UART3_Initialize();
+
 	UART1_Initialize();
 
 	UART2_Initialize();

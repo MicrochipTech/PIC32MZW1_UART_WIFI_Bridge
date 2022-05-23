@@ -50,7 +50,7 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: tcpipStack, value: '35'}
+        attributes: {id: tcpipStack, value: '83'}
   - type: Boolean
     attributes: {id: TCPIP_STACK_INTERFACE_CHANGE_SIGNALING}
     children:
@@ -93,12 +93,6 @@ children:
   - type: String
     attributes: {id: TCPIP_STACK_MII_MODE_IDX1}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'false'}
     - type: Values
       children:
       - type: Dynamic
@@ -112,15 +106,6 @@ children:
         attributes: {id: visible}
         children:
         - {type: Value, value: 'true'}
-  - type: Menu
-    attributes: {id: TCPIP_STACK_NET_INTERFACE_MENU_IDX1}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'false'}
   - type: String
     attributes: {id: TCPIP_STACK_NET_INTERFACE_NAME_IDX0}
     children:
@@ -188,4 +173,4 @@ children:
         children:
         - {type: Value, value: sys_console}
 - type: ElementPosition
-  attributes: {x: '388', y: '294', id: tcpipStack}
+  attributes: {x: '389', y: '292', id: tcpipStack}

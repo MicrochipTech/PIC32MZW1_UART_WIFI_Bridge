@@ -26,4 +26,4 @@ children:
       - type: Dynamic
         attributes: {id: sysWifiPic32mzw1, value: 'true'}
 - type: ElementPosition
-  attributes: {x: '20', y: '20', id: tcpip_basic_config}
+  attributes: {x: '20', y: '19', id: tcpip_basic_config}

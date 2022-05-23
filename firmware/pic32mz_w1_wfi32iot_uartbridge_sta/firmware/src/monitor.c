@@ -274,11 +274,11 @@ void MONITOR_Display_Status(void) {
             VT100_CURSOR_RESTORE,
             uart_bridge.uart_write_count,
             uart_bridge.tcp_write_count,
-            USB_DEV_count,
-            USB_FS_counter
+            USB_DEV_count
+            //USB_FS_counter
             );
     USB_DEV_count = 0;
-    USB_FS_counter = 0;
+    //USB_FS_counter = 0;
     if (CommandPrint(str) == false) {
         SYS_CONSOLE_PRINT(str);
     }

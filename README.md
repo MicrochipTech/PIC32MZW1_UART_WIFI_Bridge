@@ -48,6 +48,24 @@ The bridge can be useseful in many applications such as Motor control, maintenan
 
 - This application also can make field-bus RS485-WiFi bridge with a RS485 transceiver implementing automatic direction control connected to the UART interface. That enable to build a "long" RS485 transmission line and debug it wirelessly or make simple extension without adding additional wires for a new sensor on the bus
 
+## Multiple TCP Connection
+
+Mutliple TCP connection is supported when TCP Server is running on the WFI32E AP Device. WFI32E AP Device can connect to maximum eight WFI32 STA devices and create TCP connection to each STA devices. The UART-to-WiFi-TCP bridge on the WFI32E AP Device transmits all incoming TCP bytes from all of the sockets out of the WFI32E's UART module, and transmits all incoming UART bytes out of each TCP sockets.
+
+<p align="center">
+<img src="images/multiple_tcp_client.png" width=720>
+</p>
+
+If the Target transmit UART data to WFI32E AP Device, all of the WFI32 STA devices can receive the same data. In reverse, the target can receive the data from all of the WFI32 STA devices.
+
+The number of socket is defined in `uart_bridge.h`
+
+```
+#define SERVER_PORT 47111
+#define SOCKET_COUNT     8
+```
+
+
 ## Software requirement
 
 The sample project has been created and tested with the following Software Development Tools:
@@ -116,8 +134,8 @@ The on-board LEDs provides a visual indication on the application status.
 | RED LED On/solid | Wi-Fi station is connected to Wi-Fi AP |
 | GREEN LED Blinking | In TCP connection process, wait for UART message from the station |
 | GREEN LED On/solid | TCP UART Bridge established |
-| RED LED Flickering | Data send to TCP (Wi-Fi) |
-| GREEN LED Flickering | Data send to UART (CDC) |
+| RED LED Flickering | Data sent to TCP (Wi-Fi) |
+| GREEN LED Flickering | Data sent to UART (CDC) |
 
 ## Try it using two WFI32E boards
 

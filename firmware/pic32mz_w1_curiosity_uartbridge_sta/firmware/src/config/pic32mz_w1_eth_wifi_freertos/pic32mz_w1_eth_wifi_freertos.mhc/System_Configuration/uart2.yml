@@ -41,20 +41,14 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: uart2, value: 'true'}
+        attributes: {id: uart2, value: 'false'}
   - type: KeyValueSet
     attributes: {id: UART_OPERATING_MODE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: readOnly}
-        children:
-        - {type: Value, value: 'true'}
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: uart2, value: '1'}
+        attributes: {id: uart2, value: '0'}
   - type: Boolean
     attributes: {id: UART_RING_BUFFER_MODE_ENABLE}
     children:
@@ -79,10 +73,10 @@ children:
       - type: String
         attributes: {id: targetComponentID}
         children:
-        - {type: Value, value: drv_usart_0}
+        - {type: Value, value: stdio}
       - type: String
         attributes: {id: targetAttachmentID}
         children:
-        - {type: Value, value: drv_usart_UART_dependency}
+        - {type: Value, value: UART}
 - type: ElementPosition
-  attributes: {x: '12', y: '573', id: uart2}
+  attributes: {x: '12', y: '572', id: uart2}

@@ -55,6 +55,7 @@ extern "C" {
 #define UART_BRIDGE_ETH_BUFFER_SIZE     1024
 
 #define SERVER_PORT 47111
+#define SOCKET_COUNT     8
 
     // *****************************************************************************
 
@@ -73,9 +74,10 @@ extern "C" {
         UART_BRIDGE_STATE_INIT = 0,
         UART_BRIDGE_STATE_SERVICE_TASKS,
         UART_BRIDGE_TCPIP_OPENING_SERVER,
-        UART_BRIDGE_TCPIP_WAIT_FOR_CONNECTION,
+        UART_BRIDGE_TCPIP_WAIT_FOR_1ST_CONNECTION,
         UART_BRIDGE_TCPIP_SERVING_CONNECTION,
-        UART_BRIDGE_TCPIP_CLOSING_CONNECTION,
+        UART_BRIDGE_TCPIP_CLOSING_ALL_CONNECTION,
+        UART_BRIDGE_TCPIP_CHECKING_CONNECTION,
         UART_BRIDGE_STATE_IDLE,
 
         /* TODO: Define states used by the application state machine. */
@@ -104,7 +106,7 @@ extern "C" {
         UART_BRIDGE_STATES state;
         int WriteIndex;
         int ReadIndex;
-        TCP_SOCKET socket;        
+        TCP_SOCKET socket[SOCKET_COUNT];        
         uint32_t tcp_write_count;
         uint32_t uart_write_count;
     } UART_BRIDGE_DATA;

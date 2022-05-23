@@ -37,20 +37,5 @@ children:
           children:
           - type: Dynamic
             attributes: {id: usb_device_cdc_0, value: '1'}
-    - type: Attachments
-      children:
-      - type: DirectCapability
-        attributes: {id: USB Device}
-        children:
-        - type: Attributes
-          children:
-          - type: String
-            attributes: {id: targetComponentID}
-            children:
-            - {type: Value, value: sys_console_0}
-          - type: String
-            attributes: {id: targetAttachmentID}
-            children:
-            - {type: Value, value: sys_console_USB_DEVICE_CDC_dependency}
 - type: ElementPosition
   attributes: {x: '5', y: '167', id: usb_device_cdc}

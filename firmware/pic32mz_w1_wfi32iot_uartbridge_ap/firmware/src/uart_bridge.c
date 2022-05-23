@@ -329,6 +329,8 @@ void UART_BRIDGE_Initialize(void) {
 
 void UART_BRIDGE_Tasks(void) {
 
+    int i;
+    int connection_num = 0;
     /* Check the application's current state. */
     switch (uart_bridge.state) {
             /* Application's initial state. */
@@ -339,8 +341,11 @@ void UART_BRIDGE_Tasks(void) {
                 uart_bridge.WriteIndex = 0;
                 uart_bridge.ReadIndex = 0;
                 uart_bridge.tcp_write_count = 0;
-                NET_PRES_SocketClose(uart_bridge.socket);
-                uart_bridge.socket = INVALID_SOCKET;
+                for (i = 0; i< SOCKET_COUNT; i++)
+                {
+                    NET_PRES_SocketClose(uart_bridge.socket[i]);
+                    uart_bridge.socket[i] = INVALID_SOCKET;
+                }
                 /* Enable UART1_FAULT Interrupt */
                 //IEC1SET = _IEC1_U1EIE_MASK;
                 /* Enable UART1_RX Interrupt */
@@ -368,86 +373,160 @@ void UART_BRIDGE_Tasks(void) {
         case UART_BRIDGE_TCPIP_OPENING_SERVER:
         {
             SYS_CONSOLE_PRINT("Waiting for Client Connection on port: %d\r\n", SERVER_PORT);
-            uart_bridge.socket = NET_PRES_SocketOpen(0, NET_PRES_SKT_DEFAULT_STREAM_SERVER, IP_ADDRESS_TYPE_ANY, SERVER_PORT, 0, 0);
-            if (uart_bridge.socket == INVALID_SOCKET) {
-                SYS_CONSOLE_PRINT("Couldn't open server socket\r\n");
-                break;
+            
+            TCP_OPTION_KEEP_ALIVE_DATA keepAliveData;
+            
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                uart_bridge.socket[i] = NET_PRES_SocketOpen(0, NET_PRES_SKT_DEFAULT_STREAM_SERVER, IP_ADDRESS_TYPE_ANY, SERVER_PORT, 0, 0);
+                if (uart_bridge.socket[i] == INVALID_SOCKET) {
+                    SYS_CONSOLE_PRINT("Couldn't open server socket %d\r\n", i);
+                    break;
+                }
+                
+                keepAliveData.keepAliveEnable = true;
+                keepAliveData.keepAliveTmo = 500;
+                keepAliveData.keepAliveUnackLim = 5;
+                NET_PRES_SocketOptionsSet(uart_bridge.socket[i], TCP_OPTION_KEEP_ALIVE, &keepAliveData);
             }
-            uart_bridge.state = UART_BRIDGE_TCPIP_WAIT_FOR_CONNECTION;
+            uart_bridge.state = UART_BRIDGE_TCPIP_WAIT_FOR_1ST_CONNECTION;
         }
             break;
 
-        case UART_BRIDGE_TCPIP_WAIT_FOR_CONNECTION:
+        case UART_BRIDGE_TCPIP_WAIT_FOR_1ST_CONNECTION:
         {
-            if (!NET_PRES_SocketIsConnected(uart_bridge.socket)) {
-                vTaskDelay(10 / portTICK_PERIOD_MS);
-                return;
-            } else {
-                // We got a connection
-                uart_bridge.state = UART_BRIDGE_TCPIP_SERVING_CONNECTION;
-                /* Enable UART1_FAULT Interrupt */
-                IEC1SET = _IEC1_U1EIE_MASK;
-                /* Enable UART1_RX Interrupt */
-                IEC1SET = _IEC1_U1RXIE_MASK;
-                SYS_CONSOLE_PRINT("Received a UART Bridge connection\r\n");
-                MONITOR_SetLEDState(MON_LED_GREEN,MON_LED_ON,0);
-                //UART_BRIDGE_CONSOLE_PRINT("All Commands in List\r\n");
-                //DumpMemory((uint8_t*) cmd_list, CMD_MAX_CMD * CMD_MAX_SIZE);
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                if (NET_PRES_SocketIsConnected(uart_bridge.socket[i])) {
+                    // We got a connection
+                    uart_bridge.state = UART_BRIDGE_TCPIP_CHECKING_CONNECTION;
+                    /* Enable UART1_FAULT Interrupt */
+                    IEC1SET = _IEC1_U1EIE_MASK;
+                    /* Enable UART1_RX Interrupt */
+                    IEC1SET = _IEC1_U1RXIE_MASK;
+                    SYS_CONSOLE_PRINT("Received a UART Bridge connection\r\n");
+                    MONITOR_SetLEDState(MON_LED_GREEN,MON_LED_ON,0);
+                    //UART_BRIDGE_CONSOLE_PRINT("All Commands in List\r\n");
+                    //DumpMemory((uint8_t*) cmd_list, CMD_MAX_CMD * CMD_MAX_SIZE);
+                    break;
+                }
             }
+            
+            vTaskDelay(10 / portTICK_PERIOD_MS);
+
         }
             break;
+            
+        case UART_BRIDGE_TCPIP_CHECKING_CONNECTION:
+        {
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                if (NET_PRES_SocketWasDisconnected(uart_bridge.socket[i])) {
+                    NET_PRES_SocketClose(uart_bridge.socket[i]);
+                    SYS_CONSOLE_PRINT("closing connection, socket %d\r\n", i);
+                    uart_bridge.socket[i] = INVALID_SOCKET;
+                    
+                    //re-open the socket
+                    uart_bridge.socket[i] = NET_PRES_SocketOpen(0, NET_PRES_SKT_DEFAULT_STREAM_SERVER, IP_ADDRESS_TYPE_ANY, SERVER_PORT, 0, 0);
+                    if (uart_bridge.socket[i] == INVALID_SOCKET) {
+                        SYS_CONSOLE_PRINT("Couldn't open server socket %d\r\n", i);
+                        break;
+                    }
+                }
+            }
+            connection_num = 0;
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                if (NET_PRES_SocketIsConnected(uart_bridge.socket[i]))
+                    connection_num ++;
+            }
+            
+            if (connection_num == 0)
+            {
+                uart_bridge.state = UART_BRIDGE_TCPIP_CLOSING_ALL_CONNECTION;
+                SYS_CONSOLE_PRINT("All connections was closed\r\n");
+            }
+            else
+            {
+                uart_bridge.state = UART_BRIDGE_TCPIP_SERVING_CONNECTION;
+            }
+        }
+        break;
 
         case UART_BRIDGE_TCPIP_SERVING_CONNECTION:
-        {
-            if (!NET_PRES_SocketIsConnected(uart_bridge.socket) || NET_PRES_SocketWasDisconnected(uart_bridge.socket)) {
-                uart_bridge.state = UART_BRIDGE_TCPIP_CLOSING_CONNECTION;
-                SYS_CONSOLE_PRINT("Connection was closed\r\n");
-                break;
-            }
-
+        {  
             int16_t wMaxGet;
-            int16_t wMaxPut;
+            int16_t wMaxPut = TCPIP_TCP_SOCKET_DEFAULT_TX_SIZE;
             int32_t uart_rcv_size;
+            int16_t tx_size;
 
-            // Figure out how many bytes have been received and how many we can transmit.
-            wMaxGet = NET_PRES_SocketReadIsReady(uart_bridge.socket); // Get TCP RX FIFO byte count
-            wMaxPut = NET_PRES_SocketWriteIsReady(uart_bridge.socket, 1, 0); // Get TCP TX FIFO free space
-
+            // Figure out how many we can transmit.
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                if (NET_PRES_SocketIsConnected(uart_bridge.socket[i]))
+                {
+                    tx_size = NET_PRES_SocketWriteIsReady(uart_bridge.socket[i], 1, 0); // Get TCP TX FIFO free space
+                    if (wMaxPut > tx_size)
+                        wMaxPut = tx_size;
+                }
+            }
+            
+            /* Transmit data from uart to all socket connection*/
             if (wMaxPut > 0) {
                 uart_rcv_size = UART_BRIDGE_GetReadSize();
                 if (uart_rcv_size > 0) {
                     if (wMaxPut < uart_rcv_size) uart_rcv_size = wMaxPut;
                     UART_BRIDGE_Read(uart_bridge.UartTransBuffer, uart_rcv_size);
-                    NET_PRES_SocketWrite(uart_bridge.socket, uart_bridge.UartTransBuffer, uart_rcv_size);
+                    
+                    for (i = 0; i< SOCKET_COUNT; i++)
+                    {
+                        if (NET_PRES_SocketIsConnected(uart_bridge.socket[i]))
+                            NET_PRES_SocketWrite(uart_bridge.socket[i], uart_bridge.UartTransBuffer, uart_rcv_size);
+                    }
                     //LED_RED_Clear(); // Signaling that data is transfered to TCP
                     LED_RED_Off();
                     uart_bridge.tcp_write_count += uart_rcv_size;
                 }
             }
-
-            if (wMaxGet > 0) {
-                if (UART1_WriteIsBusy() == false) {
-                    NET_PRES_SocketRead(uart_bridge.socket, uart_bridge.EthernetTransBuffer, wMaxGet);
-                    int ix;
-                    for (ix = 0; ix < wMaxGet; ix++) {
-                        UART_BRIDGE_Command_Parser(uart_bridge.EthernetTransBuffer[ix]);
+            
+            /* Receive data all socket connection and forward to uart*/
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                if (NET_PRES_SocketIsConnected(uart_bridge.socket[i]))
+                {
+                    // Figure out how many bytes have been received
+                    wMaxGet = NET_PRES_SocketReadIsReady(uart_bridge.socket[i]); // Get TCP RX FIFO byte count
+                    if (wMaxGet > 0) {
+                        if (UART1_WriteIsBusy() == false) {
+                            NET_PRES_SocketRead(uart_bridge.socket[i], uart_bridge.EthernetTransBuffer, wMaxGet);
+                            int ix;
+                            for (ix = 0; ix < wMaxGet; ix++) {
+                                UART_BRIDGE_Command_Parser(uart_bridge.EthernetTransBuffer[ix]);
+                            }
+                            UART1_Write(uart_bridge.EthernetTransBuffer, wMaxGet);
+                            //LED_GREEN_Clear(); // Signaling that data is transfered to UART
+                            LED_GREEN_Off();
+                            uart_bridge.uart_write_count += wMaxGet;
+                        }
                     }
-                    UART1_Write(uart_bridge.EthernetTransBuffer, wMaxGet);
-                    //LED_GREEN_Clear(); // Signaling that data is transfered to UART
-                    LED_GREEN_Off();
-                    uart_bridge.uart_write_count += wMaxGet;
                 }
             }
+            
+            uart_bridge.state = UART_BRIDGE_TCPIP_CHECKING_CONNECTION;
 
         }
             break;
 
-        case UART_BRIDGE_TCPIP_CLOSING_CONNECTION:
+        case UART_BRIDGE_TCPIP_CLOSING_ALL_CONNECTION:
         {
             // Close the socket connection.
-            NET_PRES_SocketClose(uart_bridge.socket);
-            SYS_CONSOLE_PRINT("closing connection\r\n");
-            uart_bridge.socket = INVALID_SOCKET;
+            SYS_CONSOLE_PRINT("No socket is in-use, re-init\r\n");
+            for (i = 0; i< SOCKET_COUNT; i++)
+            {
+                NET_PRES_SocketClose(uart_bridge.socket[i]);
+                uart_bridge.socket[i] = INVALID_SOCKET;
+            }
+            
             uart_bridge.state = UART_BRIDGE_STATE_INIT;
 
         }

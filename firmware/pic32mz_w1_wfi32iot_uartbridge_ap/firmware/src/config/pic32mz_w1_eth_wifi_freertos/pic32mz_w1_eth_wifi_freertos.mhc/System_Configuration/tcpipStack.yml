@@ -14,23 +14,8 @@ children:
       - type: User
         attributes: {value: APP_Calloc}
   - type: Integer
-    attributes: {id: TCPIP_STACK_DRAM_RUN_LIMIT}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'false'}
-  - type: Integer
     attributes: {id: TCPIP_STACK_DRAM_SIZE}
     children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'false'}
     - type: Values
       children:
       - type: Dynamic
@@ -50,16 +35,7 @@ children:
     - type: Values
       children:
       - type: Dynamic
-        attributes: {id: tcpipStack, value: '35'}
-  - type: Boolean
-    attributes: {id: TCPIP_STACK_INTERFACE_CHANGE_SIGNALING}
-    children:
-    - type: Attributes
-      children:
-      - type: Boolean
-        attributes: {id: visible}
-        children:
-        - {type: Value, value: 'true'}
+        attributes: {id: tcpipStack, value: '83'}
   - type: Boolean
     attributes: {id: TCPIP_STACK_INTERRUPT_EN_IDX0}
     children:

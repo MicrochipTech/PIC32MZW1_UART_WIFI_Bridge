@@ -4,13 +4,13 @@
 
 
 project: pic32mz_w1_wfi32iot_uartbridge_sta
-creation_date: 2022-02-25T17:04:55.015+01:00[Europe/Paris]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2022-05-20T13:12:38.856+08:00[Asia/Shanghai]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
 mhc_mode: IDE            # [IDE|Standalone|Headless]
 mhc_version: v3.8.2
 mplabx_version: v6.00        # if MPLAB X plugin only
 plugin_version: v3.6.4        # if MPLAB X plugin only
-compiler: XC32 (3.01)
+compiler: XC32 (2.50)
 
 modules:
     - {name: "core", version: "v3.10.0"}

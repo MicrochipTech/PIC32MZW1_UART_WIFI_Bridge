@@ -344,6 +344,7 @@
             <logicalFolder name="f3" displayName="uart" projectFiles="true">
               <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/peripheral/uart/plib_uart_common.h</itemPath>
               <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/peripheral/uart/plib_uart1.h</itemPath>
+              <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/peripheral/uart/plib_uart3.h</itemPath>
             </logicalFolder>
           </logicalFolder>
           <logicalFolder name="f2" displayName="system" projectFiles="true">
@@ -702,6 +703,7 @@
             </logicalFolder>
             <logicalFolder name="f3" displayName="uart" projectFiles="true">
               <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/peripheral/uart/plib_uart1.c</itemPath>
+              <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/peripheral/uart/plib_uart3.c</itemPath>
             </logicalFolder>
           </logicalFolder>
           <logicalFolder name="f6" displayName="stdio" projectFiles="true">
@@ -934,6 +936,7 @@
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/lib_crypto.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/lib_wolfcrypt.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/nvm.yml</itemPath>
+          <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/stdio.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/System_Configuration.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/sys_command.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/sys_console.yml</itemPath>
@@ -942,6 +945,7 @@
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/tcpipNetConfig.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/tcpipStack.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/uart1.yml</itemPath>
+          <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/uart3.yml</itemPath>
           <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/System_Configuration/usb_device_cdc.yml</itemPath>
         </logicalFolder>
         <itemPath>../src/config/pic32mz_w1_eth_wifi_freertos/pic32mz_w1_eth_wifi_freertos.mhc/BSP_PIC32MZ_W1_WFI32IoT.yml</itemPath>
@@ -974,7 +978,7 @@
         <targetDevice>PIC32MZ1025W104132</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>pkob4hybrid</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>3.01</languageToolchainVersion>
         <platform>3</platform>

@@ -67,9 +67,9 @@ void DRV_USBFS_USB_Handler( void );
 void UART1_FAULT_InterruptHandler( void );
 void UART1_RX_InterruptHandler( void );
 void UART1_TX_InterruptHandler( void );
-void UART2_FAULT_InterruptHandler( void );
-void UART2_RX_InterruptHandler( void );
-void UART2_TX_InterruptHandler( void );
+void UART3_FAULT_InterruptHandler( void );
+void UART3_RX_InterruptHandler( void );
+void UART3_TX_InterruptHandler( void );
 void WDRV_PIC32MZW_TasksRFSMCISR( void );
 void WDRV_PIC32MZW_TasksRFMACISR( void );
 void WDRV_PIC32MZW_TasksRFTimer0ISR( void );
@@ -77,9 +77,6 @@ void DRV_BA414E_InterruptHandler( void );
 void DRV_BA414E_ErrorInterruptHandler( void );
 
 
-uint32_t RFMAC_count=0;
-uint32_t ETHERNET_counter=0;
-uint32_t USB_FS_counter=0;
 
 /* All the handlers are defined here.  Each will call its PLIB-specific function. */
 
@@ -98,7 +95,6 @@ void FLASH_CONTROL_Handler (void)
 void USB_Handler (void)
 {
     DRV_USBFS_USB_Handler();
-    USB_FS_counter++;
 }
 
 void UART1_FAULT_Handler (void)
@@ -116,19 +112,19 @@ void UART1_TX_Handler (void)
     UART1_TX_InterruptHandler();
 }
 
-void UART2_FAULT_Handler (void)
+void UART3_FAULT_Handler (void)
 {
-    UART2_FAULT_InterruptHandler();
+    UART3_FAULT_InterruptHandler();
 }
 
-void UART2_RX_Handler (void)
+void UART3_RX_Handler (void)
 {
-    UART2_RX_InterruptHandler();
+    UART3_RX_InterruptHandler();
 }
 
-void UART2_TX_Handler (void)
+void UART3_TX_Handler (void)
 {
-    UART2_TX_InterruptHandler();
+    UART3_TX_InterruptHandler();
 }
 
 void RFSMC_Handler (void)
@@ -138,7 +134,6 @@ void RFSMC_Handler (void)
 
 void RFMAC_Handler (void)
 {
-    RFMAC_count++;
     WDRV_PIC32MZW_TasksRFMACISR();
 }
 

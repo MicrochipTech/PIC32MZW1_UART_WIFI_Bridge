@@ -140,14 +140,14 @@ extern "C" {
 #define DRV_USART_INDEX_0                  0
 #define DRV_USART_CLIENTS_NUMBER_IDX0      1
 
+/* USART Driver Global Configuration Options */
+#define DRV_USART_INSTANCES_NUMBER         1
 /*** WiFi PIC32MZW1 Driver Configuration ***/
 #define WDRV_PIC32MZW1_DEVICE_USE_SYS_DEBUG
 #define WDRV_PIC32MZW_WPA3_SUPPORT
 #define WDRV_PIC32MZW_BA414E_SUPPORT
 #define WDRV_PIC32MZW_ALARM_PERIOD_1MS          390
 #define WDRV_PIC32MZW_ALARM_PERIOD_MAX          168
-/* USART Driver Global Configuration Options */
-#define DRV_USART_INSTANCES_NUMBER         1
 
 
 // *****************************************************************************
@@ -155,36 +155,6 @@ extern "C" {
 // Section: Middleware & Other Library Configuration
 // *****************************************************************************
 // *****************************************************************************
-
-
-/*** DNS Client Configuration ***/
-#define TCPIP_STACK_USE_DNS
-#define TCPIP_DNS_CLIENT_SERVER_TMO					60
-#define TCPIP_DNS_CLIENT_TASK_PROCESS_RATE			200
-#define TCPIP_DNS_CLIENT_CACHE_ENTRIES				5
-#define TCPIP_DNS_CLIENT_CACHE_ENTRY_TMO			0
-#define TCPIP_DNS_CLIENT_CACHE_PER_IPV4_ADDRESS		5
-#define TCPIP_DNS_CLIENT_CACHE_PER_IPV6_ADDRESS		1
-#define TCPIP_DNS_CLIENT_ADDRESS_TYPE			    IP_ADDRESS_TYPE_IPV4
-#define TCPIP_DNS_CLIENT_CACHE_DEFAULT_TTL_VAL		1200
-#define TCPIP_DNS_CLIENT_LOOKUP_RETRY_TMO			2
-#define TCPIP_DNS_CLIENT_MAX_HOSTNAME_LEN			64
-#define TCPIP_DNS_CLIENT_MAX_SELECT_INTERFACES		4
-#define TCPIP_DNS_CLIENT_DELETE_OLD_ENTRIES			true
-#define TCPIP_DNS_CLIENT_CONSOLE_CMD               	true
-#define TCPIP_DNS_CLIENT_USER_NOTIFICATION   false
-
-
-
-/* MPLAB Harmony BA414E Driver Definitions*/
-#define DRV_BA414E_NUM_CLIENTS 5
-
-
-/* Net Pres RTOS Configurations*/
-#define DRV_BA414E_RTOS_STACK_SIZE           1024
-#define DRV_BA414E_RTOS_TASK_PRIORITY             1	
-
-
 
 /*** ICMPv4 Server Configuration ***/
 #define TCPIP_STACK_USE_ICMP_SERVER
@@ -201,27 +171,6 @@ extern "C" {
 #define TCPIP_STACK_COMMANDS_ICMP_ECHO_TIMEOUT          5000
 #define TCPIP_STACK_COMMANDS_ICMP_ECHO_REQUEST_BUFF_SIZE    2000
 #define TCPIP_STACK_COMMANDS_ICMP_ECHO_REQUEST_DATA_SIZE    100
-
-#define SYS_WIFIPROV_NVMADDR        		0x900FF000
-#define SYS_WIFIPROV_SAVECONFIG        			true
-#define SYS_WIFIPROV_SOCKETPORT        		6666
-
-/* Number of Endpoints used */
-#define DRV_USBFS_ENDPOINTS_NUMBER                        4
-
-/* The USB Device Layer will not initialize the USB Driver */
-#define USB_DEVICE_DRIVER_INITIALIZE_EXPLICIT
-
-/* Maximum device layer instances */
-#define USB_DEVICE_INSTANCES_NUMBER                         1
-
-/* EP0 size in bytes */
-#define USB_DEVICE_EP0_BUFFER_SIZE                          64
-
-
-
-
-
 
 
 /*** TCP Configuration ***/
@@ -246,22 +195,6 @@ extern "C" {
 #define TCPIP_TCP_COMMANDS   false
 #define TCPIP_TCP_EXTERN_PACKET_PROCESS   false
 #define TCPIP_TCP_DISABLE_CRYPTO_USAGE		        	    false
-
-
-
-/*** DHCP Configuration ***/
-#define TCPIP_STACK_USE_DHCP_CLIENT
-#define TCPIP_DHCP_TIMEOUT                          10
-#define TCPIP_DHCP_TASK_TICK_RATE                   5
-#define TCPIP_DHCP_HOST_NAME_SIZE                   20
-#define TCPIP_DHCP_CLIENT_CONNECT_PORT              68
-#define TCPIP_DHCP_SERVER_LISTEN_PORT               67
-#define TCPIP_DHCP_CLIENT_CONSOLE_CMD               true
-
-#define TCPIP_DHCP_USE_OPTION_TIME_SERVER           0
-#define TCPIP_DHCP_TIME_SERVER_ADDRESSES            0
-#define TCPIP_DHCP_USE_OPTION_NTP_SERVER            0
-#define TCPIP_DHCP_NTP_SERVER_ADDRESSES             0
 
 
 
@@ -303,20 +236,6 @@ extern "C" {
 
 
 
-	/*** tcpip_cmd Configuration ***/
-	#define TCPIP_STACK_COMMAND_ENABLE
-
-
-/* Maximum instances of CDC function driver */
-#define USB_DEVICE_CDC_INSTANCES_NUMBER                     1
-													
-
-/* CDC Transfer Queue Size for both read and
-   write. Applicable to all instances of the
-   function driver */
-#define USB_DEVICE_CDC_QUEUE_DEPTH_COMBINED                 3
-
-
 /*** telnet Configuration ***/
 #define TCPIP_STACK_USE_TELNET_SERVER
 #define TCPIP_TELNET_MAX_CONNECTIONS    2
@@ -333,26 +252,6 @@ extern "C" {
 #define TCPIP_TELNET_OBSOLETE_AUTHENTICATION false
 #define TCPIP_TELNET_AUTHENTICATION_CONN_INFO true
 
-
-/*** USB Driver Configuration ***/
-
-/* Maximum USB driver instances */
-#define DRV_USBFS_INSTANCES_NUMBER                        1
-
-/* Interrupt mode enabled */
-#define DRV_USBFS_INTERRUPT_MODE                          true
-
-
-/* Enables Device Support */
-#define DRV_USBFS_DEVICE_SUPPORT                          true
-	
-/* Disable Host Support */
-#define DRV_USBFS_HOST_SUPPORT                            false
-
-
-
-/* Alignment for buffers that are submitted to USB Driver*/ 
-#define USB_ALIGN  CACHE_ALIGN
 
 
 /*** iperf Configuration ***/
@@ -377,6 +276,138 @@ extern "C" {
 
 
 
+
+
+/*** announce Configuration ***/
+#define TCPIP_STACK_USE_ANNOUNCE
+#define TCPIP_ANNOUNCE_MAX_PAYLOAD 	512
+#define TCPIP_ANNOUNCE_TASK_RATE    333
+#define TCPIP_ANNOUNCE_NETWORK_DIRECTED_BCAST             			false
+
+
+
+/*** UDP Configuration ***/
+#define TCPIP_UDP_MAX_SOCKETS		                	10
+#define TCPIP_UDP_SOCKET_DEFAULT_TX_SIZE		    	512
+#define TCPIP_UDP_SOCKET_DEFAULT_TX_QUEUE_LIMIT    	 	3
+#define TCPIP_UDP_SOCKET_DEFAULT_RX_QUEUE_LIMIT			3
+#define TCPIP_UDP_USE_POOL_BUFFERS   false
+#define TCPIP_UDP_USE_TX_CHECKSUM             			true
+#define TCPIP_UDP_USE_RX_CHECKSUM             			true
+#define TCPIP_UDP_COMMANDS   false
+#define TCPIP_UDP_EXTERN_PACKET_PROCESS   false
+
+
+/* MPLAB Harmony Net Presentation Layer Definitions*/
+#define NET_PRES_NUM_INSTANCE 1
+#define NET_PRES_NUM_SOCKETS 10
+
+/* Net Pres RTOS Configurations*/
+#define NET_PRES_RTOS_STACK_SIZE                1024
+#define NET_PRES_RTOS_TASK_PRIORITY             1
+	
+
+
+
+
+/*** DNS Client Configuration ***/
+#define TCPIP_STACK_USE_DNS
+#define TCPIP_DNS_CLIENT_SERVER_TMO					60
+#define TCPIP_DNS_CLIENT_TASK_PROCESS_RATE			200
+#define TCPIP_DNS_CLIENT_CACHE_ENTRIES				5
+#define TCPIP_DNS_CLIENT_CACHE_ENTRY_TMO			0
+#define TCPIP_DNS_CLIENT_CACHE_PER_IPV4_ADDRESS		5
+#define TCPIP_DNS_CLIENT_CACHE_PER_IPV6_ADDRESS		1
+#define TCPIP_DNS_CLIENT_ADDRESS_TYPE			    IP_ADDRESS_TYPE_IPV4
+#define TCPIP_DNS_CLIENT_CACHE_DEFAULT_TTL_VAL		1200
+#define TCPIP_DNS_CLIENT_LOOKUP_RETRY_TMO			2
+#define TCPIP_DNS_CLIENT_MAX_HOSTNAME_LEN			64
+#define TCPIP_DNS_CLIENT_MAX_SELECT_INTERFACES		4
+#define TCPIP_DNS_CLIENT_DELETE_OLD_ENTRIES			true
+#define TCPIP_DNS_CLIENT_CONSOLE_CMD               	true
+#define TCPIP_DNS_CLIENT_USER_NOTIFICATION   false
+
+
+
+/* MPLAB Harmony BA414E Driver Definitions*/
+#define DRV_BA414E_NUM_CLIENTS 5
+
+
+/* Net Pres RTOS Configurations*/
+#define DRV_BA414E_RTOS_STACK_SIZE           1024
+#define DRV_BA414E_RTOS_TASK_PRIORITY             1	
+
+
+#define SYS_WIFIPROV_NVMADDR        		0x900FF000
+#define SYS_WIFIPROV_SAVECONFIG        			true
+#define SYS_WIFIPROV_SOCKETPORT        		6666
+
+/* Number of Endpoints used */
+#define DRV_USBFS_ENDPOINTS_NUMBER                        4
+
+/* The USB Device Layer will not initialize the USB Driver */
+#define USB_DEVICE_DRIVER_INITIALIZE_EXPLICIT
+
+/* Maximum device layer instances */
+#define USB_DEVICE_INSTANCES_NUMBER                         1
+
+/* EP0 size in bytes */
+#define USB_DEVICE_EP0_BUFFER_SIZE                          64
+
+
+
+
+
+
+
+/*** DHCP Configuration ***/
+#define TCPIP_STACK_USE_DHCP_CLIENT
+#define TCPIP_DHCP_TIMEOUT                          10
+#define TCPIP_DHCP_TASK_TICK_RATE                   5
+#define TCPIP_DHCP_HOST_NAME_SIZE                   20
+#define TCPIP_DHCP_CLIENT_CONNECT_PORT              68
+#define TCPIP_DHCP_SERVER_LISTEN_PORT               67
+#define TCPIP_DHCP_CLIENT_CONSOLE_CMD               true
+
+#define TCPIP_DHCP_USE_OPTION_TIME_SERVER           0
+#define TCPIP_DHCP_TIME_SERVER_ADDRESSES            0
+#define TCPIP_DHCP_USE_OPTION_NTP_SERVER            0
+#define TCPIP_DHCP_NTP_SERVER_ADDRESSES             0
+
+
+
+	/*** tcpip_cmd Configuration ***/
+	#define TCPIP_STACK_COMMAND_ENABLE
+
+
+/* Maximum instances of CDC function driver */
+#define USB_DEVICE_CDC_INSTANCES_NUMBER                     1
+
+
+/* CDC Transfer Queue Size for both read and
+   write. Applicable to all instances of the
+   function driver */
+#define USB_DEVICE_CDC_QUEUE_DEPTH_COMBINED                 3
+
+/*** USB Driver Configuration ***/
+
+/* Maximum USB driver instances */
+#define DRV_USBFS_INSTANCES_NUMBER                        1
+
+/* Interrupt mode enabled */
+#define DRV_USBFS_INTERRUPT_MODE                          true
+
+
+/* Enables Device Support */
+#define DRV_USBFS_DEVICE_SUPPORT                          true
+	
+/* Disable Host Support */
+#define DRV_USBFS_HOST_SUPPORT                            false
+
+
+
+/* Alignment for buffers that are submitted to USB Driver*/ 
+#define USB_ALIGN  CACHE_ALIGN
 
 
 /*** TCPIP Heap Configuration ***/
@@ -435,27 +466,6 @@ extern "C" {
 
 
 
-/*** announce Configuration ***/
-#define TCPIP_STACK_USE_ANNOUNCE
-#define TCPIP_ANNOUNCE_MAX_PAYLOAD 	512
-#define TCPIP_ANNOUNCE_TASK_RATE    333
-#define TCPIP_ANNOUNCE_NETWORK_DIRECTED_BCAST             			false
-
-
-
-/*** UDP Configuration ***/
-#define TCPIP_UDP_MAX_SOCKETS		                	10
-#define TCPIP_UDP_SOCKET_DEFAULT_TX_SIZE		    	512
-#define TCPIP_UDP_SOCKET_DEFAULT_TX_QUEUE_LIMIT    	 	3
-#define TCPIP_UDP_SOCKET_DEFAULT_RX_QUEUE_LIMIT			3
-#define TCPIP_UDP_USE_POOL_BUFFERS   false
-#define TCPIP_UDP_USE_TX_CHECKSUM             			true
-#define TCPIP_UDP_USE_RX_CHECKSUM             			true
-#define TCPIP_UDP_COMMANDS   false
-#define TCPIP_UDP_EXTERN_PACKET_PROCESS   false
-
-
-
 /*** wolfCrypt Library Configuration ***/
 #define MICROCHIP_PIC32
 #define MICROCHIP_MPLAB_HARMONY
@@ -507,16 +517,6 @@ extern "C" {
 #define NO_ERROR_STRINGS
 #define NO_WOLFSSL_MEMORY
 // ---------- FUNCTIONAL CONFIGURATION END ----------
-
-/* MPLAB Harmony Net Presentation Layer Definitions*/
-#define NET_PRES_NUM_INSTANCE 1
-#define NET_PRES_NUM_SOCKETS 10
-
-/* Net Pres RTOS Configurations*/
-#define NET_PRES_RTOS_STACK_SIZE                1024
-#define NET_PRES_RTOS_TASK_PRIORITY             1
-	
-
 
 /* WIFI System Service Configuration Options */
 #define SYS_WIFI_DEVMODE        			SYS_WIFI_STA

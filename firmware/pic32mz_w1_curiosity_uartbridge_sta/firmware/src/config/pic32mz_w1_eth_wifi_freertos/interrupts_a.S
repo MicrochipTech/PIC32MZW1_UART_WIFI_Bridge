@@ -160,60 +160,60 @@ IntVectorUART1_TX_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorUART1_TX_Handler
-    .extern  UART2_FAULT_Handler
+    .extern  UART3_FAULT_Handler
 
-    .section   .vector_56,code, keep
-    .equ     __vector_dispatch_56, IntVectorUART2_FAULT_Handler
-    .global  __vector_dispatch_56
+    .section   .vector_62,code, keep
+    .equ     __vector_dispatch_62, IntVectorUART3_FAULT_Handler
+    .global  __vector_dispatch_62
     .set     nomicromips
     .set     noreorder
     .set     nomips16
     .set     noat
-    .ent  IntVectorUART2_FAULT_Handler
+    .ent  IntVectorUART3_FAULT_Handler
 
-IntVectorUART2_FAULT_Handler:
+IntVectorUART3_FAULT_Handler:
     portSAVE_CONTEXT
-    la    s6,  UART2_FAULT_Handler
+    la    s6,  UART3_FAULT_Handler
     jalr  s6
     nop
     portRESTORE_CONTEXT
-    .end   IntVectorUART2_FAULT_Handler
-    .extern  UART2_RX_Handler
+    .end   IntVectorUART3_FAULT_Handler
+    .extern  UART3_RX_Handler
 
-    .section   .vector_57,code, keep
-    .equ     __vector_dispatch_57, IntVectorUART2_RX_Handler
-    .global  __vector_dispatch_57
+    .section   .vector_63,code, keep
+    .equ     __vector_dispatch_63, IntVectorUART3_RX_Handler
+    .global  __vector_dispatch_63
     .set     nomicromips
     .set     noreorder
     .set     nomips16
     .set     noat
-    .ent  IntVectorUART2_RX_Handler
+    .ent  IntVectorUART3_RX_Handler
 
-IntVectorUART2_RX_Handler:
+IntVectorUART3_RX_Handler:
     portSAVE_CONTEXT
-    la    s6,  UART2_RX_Handler
+    la    s6,  UART3_RX_Handler
     jalr  s6
     nop
     portRESTORE_CONTEXT
-    .end   IntVectorUART2_RX_Handler
-    .extern  UART2_TX_Handler
+    .end   IntVectorUART3_RX_Handler
+    .extern  UART3_TX_Handler
 
-    .section   .vector_58,code, keep
-    .equ     __vector_dispatch_58, IntVectorUART2_TX_Handler
-    .global  __vector_dispatch_58
+    .section   .vector_64,code, keep
+    .equ     __vector_dispatch_64, IntVectorUART3_TX_Handler
+    .global  __vector_dispatch_64
     .set     nomicromips
     .set     noreorder
     .set     nomips16
     .set     noat
-    .ent  IntVectorUART2_TX_Handler
+    .ent  IntVectorUART3_TX_Handler
 
-IntVectorUART2_TX_Handler:
+IntVectorUART3_TX_Handler:
     portSAVE_CONTEXT
-    la    s6,  UART2_TX_Handler
+    la    s6,  UART3_TX_Handler
     jalr  s6
     nop
     portRESTORE_CONTEXT
-    .end   IntVectorUART2_TX_Handler
+    .end   IntVectorUART3_TX_Handler
     .extern  RFSMC_Handler
 
     .section   .vector_83,code, keep

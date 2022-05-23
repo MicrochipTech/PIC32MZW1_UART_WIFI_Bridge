@@ -693,6 +693,26 @@ const SYS_DEBUG_INIT debugInit =
 // *****************************************************************************
 // *****************************************************************************
 
+/*******************************************************************************
+  Function:
+    void STDIO_BufferModeSet ( void )
+
+  Summary:
+    Sets the buffering mode for stdin and stdout
+
+  Remarks:
+ ********************************************************************************/
+static void STDIO_BufferModeSet(void)
+{
+
+    /* Make stdin unbuffered */
+    setbuf(stdin, NULL);
+
+    /* Make stdout unbuffered */
+    setbuf(stdout, NULL);
+}
+
+
 
 
 /*******************************************************************************
@@ -711,6 +731,9 @@ void SYS_Initialize ( void* data )
     /* Start out with interrupts disabled before configuring any modules */
     __builtin_disable_interrupts();
 
+    STDIO_BufferModeSet();
+  
+
   
     PMU_Initialize();
 	CLK_Initialize();
@@ -726,6 +749,8 @@ void SYS_Initialize ( void* data )
 
     CORETIMER_Initialize();
 	UART1_Initialize();
+
+	UART2_Initialize();
 
 
     sysObj.drvUsart0 = DRV_USART_Initialize(DRV_USART_INDEX_0, (SYS_MODULE_INIT *)&drvUsart0InitData);

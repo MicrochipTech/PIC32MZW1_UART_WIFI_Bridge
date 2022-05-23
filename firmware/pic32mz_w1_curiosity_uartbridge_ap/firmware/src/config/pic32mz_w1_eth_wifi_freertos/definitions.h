@@ -48,6 +48,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "crypto/crypto.h"
 #include "driver/ba414e/drv_ba414e.h"
 #include "usb/usb_chapter_9.h"
@@ -58,6 +59,7 @@
 #include "usb/usb_device_cdc.h"
 #include "usb/usb_cdc.h"
 #include "peripheral/uart/plib_uart1.h"
+#include "peripheral/uart/plib_uart2.h"
 #include "driver/usb/usbfs/drv_usbfs.h"
 #include "system/int/sys_int.h"
 #include "system/reset/sys_reset.h"

@@ -379,6 +379,13 @@ static void SYS_WIFI_APConnCallBack
                 uint8_t idx = 0;
                 SYS_CONSOLE_PRINT("\r\nConnected STA MAC Address=%x:%x:%x:%x:%x:%x", wifiSrvcStaConnMac.addr[0], wifiSrvcStaConnMac.addr[1], wifiSrvcStaConnMac.addr[2], wifiSrvcStaConnMac.addr[3], wifiSrvcStaConnMac.addr[4], wifiSrvcStaConnMac.addr[5]);
 
+#if 1   // improve DHCP issue
+                TCPIP_NET_HANDLE netHdl = TCPIP_STACK_NetHandleGet("PIC32MZW1");
+                TCPIP_MAC_ADDR hwAdd;
+                memcpy(hwAdd.v, wifiSrvcStaConnMac.addr, 6);
+                TCPIP_DHCPS_LeaseEntryRemove(netHdl, &hwAdd);
+#endif
+                
                 /* Store the connected STA Info in the STA Conn Array */
                 for(idx = 0; idx < SYS_WIFI_MAX_STA_SUPPORTED; idx++)
                 {

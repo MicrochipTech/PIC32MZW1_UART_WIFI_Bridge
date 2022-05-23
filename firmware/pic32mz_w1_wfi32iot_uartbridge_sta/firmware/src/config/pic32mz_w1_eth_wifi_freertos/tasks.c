@@ -59,34 +59,6 @@
 // Section: RTOS "Tasks" Routine
 // *****************************************************************************
 // *****************************************************************************
-
-void _DRV_BA414E_Tasks(  void *pvParameters  )
-{
-    while(1)
-    {
-        DRV_BA414E_Tasks(sysObj.ba414e);
-    }
-}
-
-void _USB_DEVICE_Tasks(  void *pvParameters  )
-{
-    while(1)
-    {
-				 /* USB Device layer tasks routine */
-        USB_DEVICE_Tasks(sysObj.usbDevObject0);
-        vTaskDelay(1 / portTICK_PERIOD_MS);
-    }
-}
-
-void _DRV_USBFS_Tasks(  void *pvParameters  )
-{
-    while(1)
-    {
-				 /* USB FS Driver Task Routine */
-        DRV_USBFS_Tasks(sysObj.drvUSBFSObject);
-    }
-}
-
 /* Handle for the MONITOR_Tasks. */
 TaskHandle_t xMONITOR_Tasks;
 
@@ -121,6 +93,44 @@ void _UART_BRIDGE_Tasks(  void *pvParameters  )
 }
 
 
+void _NET_PRES_Tasks(  void *pvParameters  )
+{
+    while(1)
+    {
+        NET_PRES_Tasks(sysObj.netPres);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+
+void _DRV_BA414E_Tasks(  void *pvParameters  )
+{
+    while(1)
+    {
+        DRV_BA414E_Tasks(sysObj.ba414e);
+    }
+}
+
+void _USB_DEVICE_Tasks(  void *pvParameters  )
+{
+    while(1)
+    {
+				 /* USB Device layer tasks routine */
+        USB_DEVICE_Tasks(sysObj.usbDevObject0);
+        vTaskDelay(1 / portTICK_PERIOD_MS);
+    }
+}
+
+void _DRV_USBFS_Tasks(  void *pvParameters  )
+{
+    while(1)
+    {
+				 /* USB FS Driver Task Routine */
+        DRV_USBFS_Tasks(sysObj.drvUSBFSObject);
+    }
+}
+
+
 void _TCPIP_STACK_Task(  void *pvParameters  )
 {
     while(1)
@@ -149,16 +159,6 @@ void _SYS_CMD_Tasks(  void *pvParameters  )
     }
 }
 
-
-
-void _NET_PRES_Tasks(  void *pvParameters  )
-{
-    while(1)
-    {
-        NET_PRES_Tasks(sysObj.netPres);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
 
 static void _WDRV_PIC32MZW1_Tasks(  void *pvParameters  )
 {
@@ -240,6 +240,16 @@ void SYS_Tasks ( void )
 
     /* Maintain Middleware & Other Libraries */
     
+    xTaskCreate( _NET_PRES_Tasks,
+        "NET_PRES_Tasks",
+        NET_PRES_RTOS_STACK_SIZE,
+        (void*)NULL,
+        NET_PRES_RTOS_TASK_PRIORITY,
+        (TaskHandle_t*)NULL
+    );
+
+
+
     xTaskCreate( _DRV_BA414E_Tasks,
         "DRV_BA414E_Tasks",
         DRV_BA414E_RTOS_STACK_SIZE,
@@ -265,16 +275,6 @@ void SYS_Tasks ( void )
         TCPIP_RTOS_STACK_SIZE,
         (void*)NULL,
         TCPIP_RTOS_PRIORITY,
-        (TaskHandle_t*)NULL
-    );
-
-
-
-    xTaskCreate( _NET_PRES_Tasks,
-        "NET_PRES_Tasks",
-        NET_PRES_RTOS_STACK_SIZE,
-        (void*)NULL,
-        NET_PRES_RTOS_TASK_PRIORITY,
         (TaskHandle_t*)NULL
     );
 

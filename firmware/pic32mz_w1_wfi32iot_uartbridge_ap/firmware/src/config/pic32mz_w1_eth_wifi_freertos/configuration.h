@@ -201,8 +201,8 @@ extern "C" {
 
 /*** TCP Configuration ***/
 #define TCPIP_TCP_MAX_SEG_SIZE_TX		        	1460
-#define TCPIP_TCP_SOCKET_DEFAULT_TX_SIZE			512
-#define TCPIP_TCP_SOCKET_DEFAULT_RX_SIZE			512
+#define TCPIP_TCP_SOCKET_DEFAULT_TX_SIZE			2048
+#define TCPIP_TCP_SOCKET_DEFAULT_RX_SIZE			2048
 #define TCPIP_TCP_DYNAMIC_OPTIONS             			true
 #define TCPIP_TCP_START_TIMEOUT_VAL		        	1000
 #define TCPIP_TCP_DELAYED_ACK_TIMEOUT		    		100
@@ -214,7 +214,7 @@ extern "C" {
 #define TCPIP_TCP_MAX_SYN_RETRIES		        	3
 #define TCPIP_TCP_AUTO_TRANSMIT_TIMEOUT_VAL			40
 #define TCPIP_TCP_WINDOW_UPDATE_TIMEOUT_VAL			200
-#define TCPIP_TCP_MAX_SOCKETS		                10
+#define TCPIP_TCP_MAX_SOCKETS		                15
 #define TCPIP_TCP_TASK_TICK_RATE		        	5
 #define TCPIP_TCP_MSL_TIMEOUT		        	    0
 #define TCPIP_TCP_QUIET_TIME		        	    0
@@ -225,7 +225,7 @@ extern "C" {
 
 
 /*** ARP Configuration ***/
-#define TCPIP_ARP_CACHE_ENTRIES                 		5
+#define TCPIP_ARP_CACHE_ENTRIES                 		15
 #define TCPIP_ARP_CACHE_DELETE_OLD		        	true
 #define TCPIP_ARP_CACHE_SOLVED_ENTRY_TMO			1200
 #define TCPIP_ARP_CACHE_PENDING_ENTRY_TMO			60
@@ -340,7 +340,7 @@ extern "C" {
 
 /*** DHCP Server Configuration ***/
 #define TCPIP_STACK_USE_DHCP_SERVER
-#define TCPIP_DHCPS_TASK_PROCESS_RATE                     	200
+#define TCPIP_DHCPS_TASK_PROCESS_RATE                     	50
 #define TCPIP_DHCPS_MAX_NUMBER_INSTANCES					2
 #define TCPIP_DHCPS_LEASE_ENTRIES_DEFAULT                   15
 #define TCPIP_DHCPS_LEASE_SOLVED_ENTRY_TMO                  1200
